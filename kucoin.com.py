@@ -48,4 +48,10 @@ def kucoin():
         servise.INSERT_INTOS_DATA('kucoin', INFO, cursor)
 
 if __name__ == '__main__':
-    kucoin()
+    while True:
+        try:
+            kucoin()
+        except:
+            pass
+
+        time.sleep(3*60)

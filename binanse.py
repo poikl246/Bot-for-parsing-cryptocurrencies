@@ -54,7 +54,7 @@ async def main():
 
                     servise.UPDATE_INTOS_DATA('binanse', INFO, cursor)
 
-                time.sleep(2)
+                time.sleep(30)
 
             # event_time = time.localtime(data['E'] // 1000)
             # event_time = f"{event_time.tm_hour}:{event_time.tm_min}:{event_time.tm_sec}"

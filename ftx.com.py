@@ -50,4 +50,10 @@ def parser_ftx():
 
 
 if __name__ == '__main__':
-    parser_ftx()
+    while True:
+        try:
+            parser_ftx()
+        except:
+            pass
+
+        time.sleep(3*60)

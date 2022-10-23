@@ -59,4 +59,10 @@ def bitfinex():
         servise.INSERT_INTOS_DATA("bitfinex", INFO, cursor)
 
 if __name__ == '__main__':
-    bitfinex()
+    while True:
+        try:
+            bitfinex()
+        except:
+            pass
+
+        time.sleep(3*60)

@@ -82,4 +82,10 @@ def gate_main(page_):
 
 
 if __name__ == '__main__':
-    gate_main(30)
+    while True:
+        try:
+            gate_main(30)
+        except:
+            pass
+
+        time.sleep(3*60)

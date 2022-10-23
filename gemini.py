@@ -58,4 +58,10 @@ def gemini():
         servise.INSERT_INTOS_DATA('gemini', INFO, cursor)
 
 if __name__ == '__main__':
-    gemini()
+    while True:
+        try:
+            gemini()
+        except:
+            pass
+
+        time.sleep(3*60)
