@@ -1,26 +1,12 @@
 import sqlite3
-
 import websockets
 import asyncio
 import json
 import time
-import matplotlib.pyplot as plt
 import servise
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-fig.show()
-
-xdata = []
-ydata = []
 
 
-def update_graph():
-    ax.plot(xdata, ydata, color='g')
-    ax.legend([f"Last price: {ydata[-1]}$"])
-
-    fig.canvas.draw()
-    plt.pause(0.1)
 
 
 async def main():
