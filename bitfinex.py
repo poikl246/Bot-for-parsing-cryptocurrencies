@@ -44,7 +44,7 @@ def bitfinex():
 
         INFO.append([
             count,
-            coin[0][1:],
+            coin[0][1:].replace(':', '').replace('/', ''),
             name1,
             name2,
             coin[3],

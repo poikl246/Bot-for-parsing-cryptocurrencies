@@ -85,3 +85,23 @@ def request_no_error2(url, headers, params={}, cookies={}, s=1, retry=5):
             return 0
     else:
         return response
+
+
+
+def SELECT():
+    with sqlite3.connect('info.db') as db:
+        cursor = db.cursor()
+        cursor.execute("""
+SELECT kucoin.name as NAME__, bitfinex.price, ftx.price, gate.price, gemini.price, kucoin.price, whitebit.price
+
+FROM kucoin FULL JOIN ftx ON kucoin.name = ftx.name FULL JOIN bitfinex ON kucoin.name = bitfinex.name FULL JOIN gemini ON kucoin.name = gemini.name FULL JOIN whitebit ON kucoin.name = whitebit.name FULL JOIN gate ON kucoin.name = gate.name
+
+WHERE NAME__ IS NOT NULL;
+""")
+        return cursor.fetchall()
+
+
+if __name__ == '__main__':
+    data = SELECT()
+    print(*data, sep='\n')
+    print(len(data))

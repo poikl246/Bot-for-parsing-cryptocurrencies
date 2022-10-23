@@ -60,7 +60,7 @@ def whitebit():
             except:
                 pass
 
-        servise.DELETE_DB("whitebit")
+
         with sqlite3.connect('info.db') as db:
             cursor = db.cursor()
             servise.INSERT_INTOS_DATA('whitebit', INFO, cursor)
@@ -70,7 +70,9 @@ def whitebit():
         # exit()
 
 
-
+def main():
+    servise.DELETE_DB("whitebit")
+    whitebit()
 
 if __name__ == '__main__':
-    whitebit()
+    main()
