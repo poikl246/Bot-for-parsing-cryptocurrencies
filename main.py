@@ -34,12 +34,19 @@ async def send_to_clients(message: types.Message):
     print('srkgmls')
     async with aiosqlite.connect('info.db') as db:
         cursor = await db.cursor()
+#         await cursor.execute("""
+# SELECT kucoin.name as NAME__, bitfinex.price, ftx.price, gate.price, gemini.price, kucoin.price, whitebit.price
+#
+# FROM kucoin FULL JOIN ftx ON kucoin.name = ftx.name FULL JOIN bitfinex ON kucoin.name = bitfinex.name FULL JOIN gemini ON kucoin.name = gemini.name FULL JOIN whitebit ON kucoin.name = whitebit.name FULL JOIN gate ON kucoin.name = gate.name
+#
+# WHERE NAME__ IS NOT NULL;""")
+
         await cursor.execute("""
-SELECT kucoin.name as NAME__, bitfinex.price, ftx.price, gate.price, gemini.price, kucoin.price, whitebit.price
+        SELECT kucoin.name as NAME__, bitfinex.price, ftx.price, gate.price, gemini.price, kucoin.price, whitebit.price
 
-FROM kucoin FULL JOIN ftx ON kucoin.name = ftx.name FULL JOIN bitfinex ON kucoin.name = bitfinex.name FULL JOIN gemini ON kucoin.name = gemini.name FULL JOIN whitebit ON kucoin.name = whitebit.name FULL JOIN gate ON kucoin.name = gate.name
+        FROM kucoin FULL JOIN ftx ON kucoin.name = ftx.name FULL JOIN bitfinex ON kucoin.name = bitfinex.name FULL JOIN gemini ON kucoin.name = gemini.name FULL JOIN whitebit ON kucoin.name = whitebit.name FULL JOIN gate ON kucoin.name = gate.name
 
-WHERE NAME__ IS NOT NULL;""")
+        WHERE NAME__ IS NOT NULL;""")
         data = await cursor.fetchall()
         name_bir = ["bitfinex", "ftx", "gate", "gemini", "kucoin", "whitebit"]
         for coin in data:
