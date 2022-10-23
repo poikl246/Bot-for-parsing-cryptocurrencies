@@ -42,9 +42,9 @@ def gemini():
                 local.get('symbol'),
                 local.get('coin'),
                 local.get('marketCap').get('currency'),
-                local.get('ask'),
-                local.get('ask'),
-                local.get('bid'),
+                float(local.get('ask')),
+                float(local.get('ask')),
+                float(local.get('bid')),
                 time.time()
             ])
 

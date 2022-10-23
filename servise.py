@@ -103,5 +103,24 @@ WHERE NAME__ IS NOT NULL;
 
 if __name__ == '__main__':
     data = SELECT()
-    print(*data, sep='\n')
+    name_bir = ["bitfinex", "ftx", "gate", "gemini", "kucoin", "whitebit"]
+    for coin in data:
+
+        minimum = 99999999999999
+        maxim = 0
+
+        for local in coin[1:]:
+            if local == None:
+                continue
+            if maxim < local:
+                maxim = local
+            if minimum > local:
+                minimum = local
+
+        if minimum != 0:
+            if maxim / minimum > 1.05:
+                print(coin)
+                print(maxim, minimum, maxim / minimum)
+                print(f"MAX:{name_bir[coin.index(maxim) - 1]}\nMIN:{name_bir[coin.index(minimum) - 1]}")
+
     print(len(data))

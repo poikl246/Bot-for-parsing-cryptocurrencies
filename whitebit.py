@@ -1,6 +1,5 @@
 import sqlite3
 import time
-
 import servise
 from bs4 import BeautifulSoup
 
