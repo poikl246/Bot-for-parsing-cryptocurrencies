@@ -1,3 +1,4 @@
+import sqlite3
 import time
 
 import servise
@@ -46,7 +47,7 @@ def whitebit():
 
                 INFO.append([
                     count,
-                    name,
+                    name.replace('/', ''),
                     name1,
                     name2,
                     price,
@@ -59,7 +60,10 @@ def whitebit():
             except:
                 pass
 
-        servise.INSERT_INTOS_DATA('whitebit', INFO)
+        servise.DELETE_DB("whitebit")
+        with sqlite3.connect('info.db') as db:
+            cursor = db.cursor()
+            servise.INSERT_INTOS_DATA('whitebit', INFO, cursor)
 
 
 

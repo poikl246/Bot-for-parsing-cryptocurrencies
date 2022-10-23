@@ -21,11 +21,40 @@ def CREATE_TABLE(table_name):
                                             time_
                                             );""")
 
-def INSERT_INTOS_DATA(table_name, INFO):
+def CREATE_TABLE_binance(table_name):
     with sqlite3.connect('info.db') as db:
         cursor = db.cursor()
-        cursor.executemany(f"INSERT INTO {table_name} VALUES(?,?,?,?,?,?,?,?);", INFO)
+
+        cursor.execute(f"""CREATE TABLE IF NOT EXISTS {table_name} (
+                                            id int,
+                                            name text UNIQUE,
+                                            name_1,
+                                            name_2,
+                                            price, 
+                                            high,
+                                            low,
+                                            time_
+                                            );""")
+
+def INSERT_INTOS_DATA(table_name, INFO, cursor):
+    cursor.executemany(f"INSERT INTO {table_name} VALUES (?,?,?,?,?,?,?,?);", INFO)
+
+
+
+def DELETE_DB(table_name):
+    with sqlite3.connect('info.db') as db:
+        cursor = db.cursor()
+        cursor.execute(f"DELETE FROM {table_name};")
         db.commit()
+
+def UPDATE_INTOS_DATA(table_name, INFO, cursor):
+    try:
+        # print('insert')
+        cursor.execute(f" INSERT INTO {table_name} VALUES (?,?,?,?,?,?,?,?);", INFO[:-1])
+        # print('no_error')
+    except:
+        print("update")
+        cursor.execute(f"UPDATE {table_name} SET id=?, name=?, name_1=?, name_2=?, price=?, high=?, low=?, time_=? WHERE name=?", INFO)
 
 
 

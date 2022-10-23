@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import time
 import servise
 
@@ -38,10 +39,13 @@ def kucoin():
 
     for name, price in response.json().get('data', {}).items():
         print(name, price)
-        INFO.append([count, name, name, 'USD', float(price), float(price), float(price), time.time()])
+        INFO.append([count, name+'USD', name, 'USD', float(price), float(price), float(price), time.time()])
         count += 1
 
-    # servise.INSERT_INTOS_DATA('kucoin', INFO)
+    servise.DELETE_DB("kucoin")
+    with sqlite3.connect('info.db') as db:
+        cursor = db.cursor()
+        servise.INSERT_INTOS_DATA('kucoin', INFO, cursor)
 
 if __name__ == '__main__':
     kucoin()

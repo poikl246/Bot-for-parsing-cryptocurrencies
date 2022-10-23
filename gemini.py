@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import time
 import servise
 import requests
@@ -51,7 +52,10 @@ def gemini():
         except:
             pass
 
-    servise.INSERT_INTOS_DATA('gemini', INFO)
+    servise.DELETE_DB("gemini")
+    with sqlite3.connect('info.db') as db:
+        cursor = db.cursor()
+        servise.INSERT_INTOS_DATA('gemini', INFO, cursor)
 
 if __name__ == '__main__':
     gemini()

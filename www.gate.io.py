@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import time
 import requests
 import servise
@@ -46,7 +47,7 @@ def gate(page, count, pop=5):
             try:
                 INFO.append([
                              count,
-                             coin.get('pair', ''),
+                             coin.get('pair', '').replace('_', "").upper(),
                              coin.get('curr_a', ''),
                              coin.get('curr_b', ''),
                              float(coin.get('rate', '')),
@@ -58,10 +59,14 @@ def gate(page, count, pop=5):
                 count += 1
             except:
                 print('error', coin)
-        servise.INSERT_INTOS_DATA('gate', INFO)
+
+
+        with sqlite3.connect('info.db') as db:
+            cursor = db.cursor()
+            servise.INSERT_INTOS_DATA('gate', INFO, cursor)
     except:
         if pop > 0:
-            gate(pop=pop-1)
+            gate(pop=pop-1, count=count)
 
     return count
 
@@ -69,9 +74,12 @@ def gate(page, count, pop=5):
 
 def gate_main(page_):
     servise.CREATE_TABLE('gate')
+    servise.DELETE_DB("gate")
     count = 0
     for page in range(page_):
         count = gate(page, count)
+
+
 
 if __name__ == '__main__':
     gate_main(30)

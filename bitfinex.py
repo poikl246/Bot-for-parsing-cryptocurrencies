@@ -1,3 +1,4 @@
+import sqlite3
 import time
 
 import requests
@@ -33,18 +34,29 @@ def bitfinex():
     INFO = []
     for coin in data:
         print(coin)
+
+        if len(coin[0][1:].split(':')) == 1:
+            name1 = coin[0][1:]
+            name2 = 'USD'
+        else:
+            name1 = coin[0][1:].split(':')[0]
+            name2 = coin[0][1:].split(':')[1]
+
         INFO.append([
             count,
             coin[0][1:],
-            coin[0][1:],
-            'USD',
+            name1,
+            name2,
             coin[3],
             coin[3],
             coin[1],
             time.time()
         ])
-
-    servise.INSERT_INTOS_DATA("bitfinex", INFO)
+        count += 1
+    servise.DELETE_DB("bitfinex")
+    with sqlite3.connect('info.db') as db:
+        cursor = db.cursor()
+        servise.INSERT_INTOS_DATA("bitfinex", INFO, cursor)
 
 if __name__ == '__main__':
     bitfinex()
