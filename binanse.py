@@ -40,15 +40,15 @@ async def main():
 
                     # servise.UPDATE_INTOS_DATA('binanse', INFO, cursor)
                     try:
-                        # print('insert')
+                        print('insert')
                         await cursor.execute(f" INSERT INTO binanse VALUES (?,?,?,?,?,?,?,?);", INFO[:-1])
-                        # print('no_error')
+                        print('no_error')
                     except:
                         print("update")
                         await cursor.execute(
                             f"UPDATE binanse SET id=?, name=?, name_1=?, name_2=?, price=?, high=?, low=?, time_=? WHERE name=?",
                             INFO)
-
+                await db.commit()
                 await asyncio.sleep(30)
 
             # event_time = time.localtime(data['E'] // 1000)

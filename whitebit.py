@@ -70,13 +70,7 @@ def whitebit():
 
 
 def main():
-    while True:
-        try:
-            servise.DELETE_DB("whitebit")
-            whitebit()
-        except:
-            pass
-
-        time.sleep(3*60)
+    servise.DELETE_DB("whitebit")
+    whitebit()
 if __name__ == '__main__':
     main()
