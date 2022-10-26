@@ -3,6 +3,8 @@
 
 import random
 import logging
+import time
+
 import aiosqlite
 import os
 from aiogram import Bot, Dispatcher, executor, types
@@ -67,7 +69,7 @@ async def send_to_clients(message: types.Message):
                     if maxim / minimum > 1.05:
                         print(coin)
                         print(maxim, minimum, maxim / minimum)
-                        print(f"COIN:{coin[0]}\nMAX:{name_bir[coin.index(maxim) - 1]}\nMIN:{name_bir[coin.index(minimum) - 1]}")
+                        print(f"COIN:{coin[0]}\nMAX:{name_bir[coin.index(maxim) - 1]}\nMIN:{name_bir[coin.index(minimum) - 1]}\ntime:{time.ctime(time.time())}")
                         await message.answer(f"COIN: {coin[0]}\nMAX: {name_bir[coin.index(maxim) - 1]}  {maxim}\nMIN: {name_bir[coin.index(minimum) - 1]}   {minimum}\n%: {round((maxim/minimum)*100 - 100, 5)}%")
     else:
         await message.answer(

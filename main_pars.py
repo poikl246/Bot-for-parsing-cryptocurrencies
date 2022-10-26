@@ -54,5 +54,5 @@ if __name__ == '__main__':
             main()
         except:
             print("ERROR main")
-        print(f"Время обновления: {time.time() - time_start}")
-        time.sleep(30)
+        print(f"Время обновления: {time.time() - time_start}, {time.ctime(time.time())}")
+        time.sleep(60)
