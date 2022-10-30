@@ -60,9 +60,8 @@ def whitebit():
                 pass
 
 
-        with sqlite3.connect('info.db') as db:
-            cursor = db.cursor()
-            servise.INSERT_INTOS_DATA('whitebit', INFO, cursor)
+
+        servise.INSERT_INTOS_DATA('whitebit', INFO, cursor)
 
 
 

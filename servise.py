@@ -13,48 +13,50 @@ with psycopg2.connect(
             user=user,
             password=password,
             database=db_name,
-            port=5432) as connection:
+            port=5432) as db:
 
-    cursor = connection.cursor()
+    cursor = db.cursor()
     def CREATE_TABLE(table_name):
 
+        cursor.execute(f"""CREATE TABLE IF NOT EXISTS {table_name} (
+                                            id int,
+                                            name text,
+                                            name_1 text,
+                                            name_2 text,
+                                            price float, 
+                                            high float,
+                                            low float,
+                                            time_ float
+                                            );""")
 
-            cursor.execute(f"""CREATE TABLE IF NOT EXISTS {table_name} (
-                                                id int,
-                                                name text,
-                                                name_1 text,
-                                                name_2 text,
-                                                price float, 
-                                                high float,
-                                                low float,
-                                                time_ float
-                                                );""")
-
+        db.commit()
     def CREATE_TABLE_binance(table_name):
-        with sqlite3.connect('info.db') as db:
-            cursor = db.cursor()
+        print(table_name)
+        cursor.execute(f"""CREATE TABLE IF NOT EXISTS {table_name} (
+                                            id int,
+                                            name text UNIQUE,
+                                            name_1 text,
+                                            name_2 text,
+                                            price float, 
+                                            high float,
+                                            low float,
+                                            time_ float
+                                            );""")
 
-            cursor.execute(f"""CREATE TABLE IF NOT EXISTS {table_name} (
-                                                id int,
-                                                name text UNIQUE,
-                                                name_1 text,
-                                                name_2 text,
-                                                price float, 
-                                                high float,
-                                                low float,
-                                                time_ float
-                                                );""")
+        db.commit()
 
-    def INSERT_INTOS_DATA(table_name, INFO, cursor):
+    def INSERT_INTOS_DATA(table_name, INFO):
+        print('INSERT_INTOS_DATA')
         cursor.executemany(f"INSERT INTO {table_name} VALUES (%s,%s,%s,%s,%s,%s,%s,%s);", INFO)
+        print('INSERT_INTOS_DATA, commit')
+        db.commit()
+        print('INSERT_INTOS_DATA good')
 
 
 
     def DELETE_DB(table_name):
-        with sqlite3.connect('info.db') as db:
-            cursor = db.cursor()
-            cursor.execute(f"DELETE FROM {table_name};")
-            db.commit()
+        cursor.execute(f"DELETE FROM {table_name};")
+        db.commit()
 
     def UPDATE_INTOS_DATA(table_name, INFO, cursor):
         try:
@@ -65,7 +67,7 @@ with psycopg2.connect(
             print("update")
             cursor.execute(f"UPDATE {table_name} SET id=%s, name=%s, name_1=%s, name_2=%s, price=%s, high=%s, low=%s, time_=%s WHERE name=%s", INFO)
 
-
+        db.commit()
 
     def request_no_error2(url, headers, params={}, cookies={}, s=1, retry=5):
         # headers["User-Agent"] = ua.random
@@ -98,16 +100,14 @@ with psycopg2.connect(
 
 
     def SELECT():
-        with sqlite3.connect('info.db') as db:
-            cursor = db.cursor()
-            cursor.execute("""
+        cursor.execute("""
     SELECT kucoin.name as NAME__, bitfinex.price, ftx.price, gate.price, gemini.price, kucoin.price, whitebit.price
     
     FROM kucoin FULL JOIN ftx ON kucoin.name = ftx.name FULL JOIN bitfinex ON kucoin.name = bitfinex.name FULL JOIN gemini ON kucoin.name = gemini.name FULL JOIN whitebit ON kucoin.name = whitebit.name FULL JOIN gate ON kucoin.name = gate.name
     
     WHERE NAME__ IS NOT NULL;
     """)
-            return cursor.fetchall()
+        return cursor.fetchall()
 
 
 if __name__ == '__main__':

@@ -43,9 +43,7 @@ def kucoin():
         count += 1
 
     servise.DELETE_DB("kucoin")
-    with sqlite3.connect('info.db') as db:
-        cursor = db.cursor()
-        servise.INSERT_INTOS_DATA('kucoin', INFO, cursor)
+    servise.INSERT_INTOS_DATA('kucoin', INFO)
 
 if __name__ == '__main__':
     while True:

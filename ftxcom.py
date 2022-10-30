@@ -35,25 +35,27 @@ def parser_ftx():
     for moneta in data.get("result", []):
         try:
             print(moneta.get('name'), float(moneta.get("price")))
-            name_and_price.append([count, moneta.get('name').replace('/', ''), moneta.get('name').split('/')[0], moneta.get('name').split('/')[1], float(moneta.get("price")), float(moneta.get("price")), float(moneta.get("price")), time.time()])
+            name_and_price.append([count, moneta.get('name').replace('/', ''), moneta.get('name').split('/')[0], moneta.get('name').split('/')[1], float(moneta.get("price")), float(moneta.get("price")), float(moneta.get("price")), float(time.time())])
             count += 1
         except:
             print(moneta.get('name'), moneta.get("price"))
 
     servise.DELETE_DB("ftx")
-    with sqlite3.connect('info.db') as db:
-        cursor = db.cursor()
-        servise.INSERT_INTOS_DATA('ftx', name_and_price, cursor)
+    servise.INSERT_INTOS_DATA('ftx', name_and_price)
 
     # print(sorted(name_and_price, key=lambda x:x[1], reverse=True))
     # print(len(data.get("result", [])))
 
 
 if __name__ == '__main__':
-    while True:
-        try:
-            parser_ftx()
-        except:
-            pass
 
-        time.sleep(3*60)
+    parser_ftx()
+    exit()
+    # while True:
+    #
+    #     try:
+    #         parser_ftx()
+    #     except:
+    #         pass
+    #
+    #     time.sleep(3*60)

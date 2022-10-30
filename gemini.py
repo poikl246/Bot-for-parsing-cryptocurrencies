@@ -53,9 +53,8 @@ def gemini():
             pass
 
     servise.DELETE_DB("gemini")
-    with sqlite3.connect('info.db') as db:
-        cursor = db.cursor()
-        servise.INSERT_INTOS_DATA('gemini', INFO, cursor)
+
+    servise.INSERT_INTOS_DATA('gemini', INFO)
 
 if __name__ == '__main__':
     while True:

@@ -61,9 +61,7 @@ def gate(page, count, pop=5):
                 print('error', coin)
 
 
-        with sqlite3.connect('info.db') as db:
-            cursor = db.cursor()
-            servise.INSERT_INTOS_DATA('gate', INFO, cursor)
+        servise.INSERT_INTOS_DATA('gate', INFO)
     except:
         if pop > 0:
             gate(pop=pop-1, count=count)

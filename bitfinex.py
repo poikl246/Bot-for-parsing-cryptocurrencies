@@ -54,9 +54,7 @@ def bitfinex():
         ])
         count += 1
     servise.DELETE_DB("bitfinex")
-    with sqlite3.connect('info.db') as db:
-        cursor = db.cursor()
-        servise.INSERT_INTOS_DATA("bitfinex", INFO, cursor)
+    servise.INSERT_INTOS_DATA("bitfinex", INFO)
 
 if __name__ == '__main__':
     while True:
