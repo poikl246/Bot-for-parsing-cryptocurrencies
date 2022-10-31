@@ -61,7 +61,7 @@ def whitebit():
 
 
 
-        servise.INSERT_INTOS_DATA('whitebit', INFO, cursor)
+        servise.INSERT_INTOS_DATA('whitebit', INFO)
 
 
 
@@ -69,6 +69,7 @@ def whitebit():
 
 
 def main():
+    servise.CREATE_TABLE('whitebit')
     servise.DELETE_DB("whitebit")
     whitebit()
 if __name__ == '__main__':

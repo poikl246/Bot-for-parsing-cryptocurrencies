@@ -3,10 +3,10 @@ import time
 
 import psycopg2
 import requests
-from fake_useragent import UserAgent
-ua = UserAgent()
+# from fake_useragent import UserAgent
+# ua = UserAgent()
 
-host, user, password, db_name = ['10.0.0.100', 'username', 'username', 'site']
+host, user, password, db_name = ['192.168.0.200', 'username', 'username', 'site']
 
 with psycopg2.connect(
             host=host,

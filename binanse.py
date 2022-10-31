@@ -1,4 +1,5 @@
 import aiosqlite
+import psycopg2
 import websockets
 import asyncio
 import json
@@ -7,62 +8,68 @@ import servise
 
 
 
+host, user, password, db_name = ['10.0.0.100', 'username', 'username', 'site']
 
-
+# with psycopg2.connect(
+#         host=host,
+#         user=user,
+#         password=password,
+#         database=db_name,
+#         port=5432) as db:
+#     cursor = db.cursor()
 async def main():
-    # url = "wss://stream.binance.com:9443/stream?streams=btcusdt@miniTicker"
-    url = "wss://stream.binance.com:9443/stream?streams=!miniTicker@arr@3000ms"
+    # url = "wss://stream.binance.com:9443/stream%sstreams=btcusdt@miniTicker"
+    url = "wss://stream.binance.com:9443/stream%sstreams=!miniTicker@arr@3000ms"
     async with websockets.connect(url) as client:
-        async with aiosqlite.connect('info.db') as db:
-            cursor = await db.cursor()
-            while True:
-            # for i in range(1):
-                # print(await client.recv())
-                data = json.loads(await client.recv())['data']
-                print(data)
 
-                count = 0
-                for moneta in data:
-                    print(moneta)
-                    INFO = [
-                        count,
-                        moneta['s'],
-                        moneta['s'],
-                        moneta['s'],
-                        moneta['c'],
-                        moneta['o'],
-                        moneta['h'],
-                        time.time(),
-                        moneta['s'],
-                    ]
+        while True:
+        # for i in range(1):
+            # print(await client.recv())
+            data = json.loads(await client.recv())['data']
+            print(data)
 
-                    count += 1
+            count = 0
+            for moneta in data:
+                print(moneta)
+                INFO = [
+                    count,
+                    moneta['s'],
+                    moneta['s'],
+                    moneta['s'],
+                    moneta['c'],
+                    moneta['o'],
+                    moneta['h'],
+                    time.time(),
+                    moneta['s'],
+                ]
 
-                    # servise.UPDATE_INTOS_DATA('binanse', INFO, cursor)
-                    try:
-                        print('insert')
-                        await cursor.execute(f" INSERT INTO binanse VALUES (?,?,?,?,?,?,?,?);", INFO[:-1])
-                        print('no_error')
-                    except:
-                        print("update")
-                        await cursor.execute(
-                            f"UPDATE binanse SET id=?, name=?, name_1=?, name_2=?, price=?, high=?, low=?, time_=? WHERE name=?",
-                            INFO)
-                await db.commit()
-                await asyncio.sleep(30)
+                count += 1
 
-            # event_time = time.localtime(data['E'] // 1000)
-            # event_time = f"{event_time.tm_hour}:{event_time.tm_min}:{event_time.tm_sec}"
-            #
-            # print(event_time, data['c'])
-            #
-            # xdata.append(event_time)
-            # ydata.append(int(float(data['c'])))
-            #
-            # update_graph()
+                # servise.UPDATE_INTOS_DATA('binanse', INFO, cursor)
+                # try:
+                #     print('insert')
+                #     cursor.execute(f" INSERT INTO binanse VALUES (%s,%s,%s,%s,%s,%s,%s,%s);", INFO[:-1])
+                #     print('no_error')
+                # except:
+                #     print("update")
+                #     cursor.execute(
+                #         f"UPDATE binanse SET id=%s, name=%s, name_1=%s, name_2=%s, price=%s, high=%s, low=%s, time_=%s WHERE name=%s",
+                #         INFO)
+            # db.commit()
+            await asyncio.sleep(30)
+
+        # event_time = time.localtime(data['E'] // 1000)
+        # event_time = f"{event_time.tm_hour}:{event_time.tm_min}:{event_time.tm_sec}"
+        #
+        # print(event_time, data['c'])
+        #
+        # xdata.append(event_time)
+        # ydata.append(int(float(data['c'])))
+        #
+        # update_graph()
 
 
 if __name__ == '__main__':
-    servise.CREATE_TABLE_binance('binanse')
+    # servise.CREATE_TABLE_binance('binanse')
     # loop = asyncio.get_event_loop()
     asyncio.run(main())
